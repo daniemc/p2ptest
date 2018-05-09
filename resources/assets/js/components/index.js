@@ -5,6 +5,7 @@ import ProgressBar from './ProgressBar'
 import PasswordInput from './form/PasswordInput'
 import SubmitButton from './form/SubmitButton'
 import TextInput from './form/TextInput'
+import SelectInput from './form/SelectInput'
 import { HasError, AlertError, AlertSuccess } from 'vform'
 
 Vue.component(Icon.name, Icon)
@@ -16,3 +17,4 @@ Vue.component(TextInput.name, TextInput)
 Vue.component(HasError.name, HasError)
 Vue.component(AlertError.name, AlertError)
 Vue.component(AlertSuccess.name, AlertSuccess)
+Vue.component(SelectInput.name, SelectInput)
