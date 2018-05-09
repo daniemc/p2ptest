@@ -18,7 +18,7 @@
         :to="item.route"
       >
         <v-list-tile-action>
-          <v-icon light v-html="item.icon"></v-icon>
+          <v-icon v-html="item.icon"></v-icon>
         </v-list-tile-action>
         <v-list-tile-content>
           <v-list-tile-title v-text="item.title"></v-list-tile-title>
@@ -35,6 +35,7 @@ export default {
       name: this.$t('nav_menu_title'),
       items: [
         { title: 'Productos', icon: 'view_module', route: { name: 'products' } },
+        { title: 'Carrito de compra', icon: 'shopping_cart', route: { name: 'cart' } },
         { title: 'Mis órdenes', icon: 'list', route: { name: 'myOrders' } },
       ]
     }
