@@ -35,4 +35,10 @@ return [
         'secret' => env('STRIPE_SECRET'),
     ],
 
+    'placeToPay' => [
+        'id' => env('PLACE_TO_PAY_ID'),
+        'transactionalKey' => env('PLACE_TO_PAY_TRANSACTIONAL_KEY'),
+        'wsdl' => env('PLACE_TO_PAY_WSDL')
+    ],
+
 ];
