@@ -11,6 +11,12 @@
     <!-- Authenticated -->
     <template v-if="authenticated">
       <progress-bar :show="busy"></progress-bar>
+      <router-link :to="{ name: 'cart' }">
+        <v-badge left color="cyan">
+          <span slot="badge">{{ productsInCart }}</span>
+          <v-icon large dark>shopping_cart</v-icon>
+        </v-badge>
+      </router-link>
       <v-btn flat :to="{ name: 'settings.profile' }">{{ user.name }}</v-btn>
       <v-btn flat @click.prevent="logout">{{ $t('logout') }}</v-btn>
     </template>
@@ -41,7 +47,8 @@ export default {
 
   computed: mapGetters({
     user: 'authUser',
-    authenticated: 'authCheck'
+    authenticated: 'authCheck',
+    productsInCart: 'countProductsAdded'
   }),
 
   methods: {
