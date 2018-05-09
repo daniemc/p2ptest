@@ -15,7 +15,7 @@
           <v-card-actions>
             <v-flex xs12 justify-space-around>
               <v-btn @click="remove" flat color="orange">Vaciar carrito</v-btn>
-              <v-btn @click="checkout" flat color="orange">Continuar compra</v-btn>
+              <router-link :to="{ name: 'checkout'}" class="checkout" >CONTINUAR COMPRA</router-link>
             </v-flex>
           </v-card-actions>
         </v-card>
@@ -37,7 +37,7 @@ export default {
   },
 
   computed: {
-  ...mapGetters(['countProductsAdded', 'cartTotalPrice'])
+    ...mapGetters(['countProductsAdded', 'cartTotalPrice'])
   },
 
   methods: {
@@ -57,7 +57,10 @@ export default {
 </script>
 
 <style>
-
+.checkout {
+  font-size: 16px;
+  font-weight: 600;
+}
 </style>
 
 

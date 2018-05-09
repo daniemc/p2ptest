@@ -12,7 +12,8 @@ export default ({ authGuard, guestGuard }) => [
       { path: 'password', name: 'settings.password', component: require('~/pages/settings/password.vue') }
       ] },
     { path: '/products', name: 'products', component: require('~/pages/placeToPay/products.vue') },
-    { path: '/cart', name: 'cart', component: require('~/pages/placeToPay/cart.vue') }
+    { path: '/cart', name: 'cart', component: require('~/pages/placeToPay/cart.vue') },
+    { path: '/checkout', name: 'checkout', component: require('~/pages/placeToPay/checkout.vue') }
   ]),
 
   // Guest routes.
