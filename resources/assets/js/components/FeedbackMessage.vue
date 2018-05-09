@@ -10,7 +10,7 @@
         </v-layout>
       </v-card>
     </v-dialog>
-    <v-snackbar v-else top v-model="responseMessage.show" :color="responseMessage.type">
+    <v-snackbar v-else bottom right v-model="responseMessage.show" :color="responseMessage.type">
       {{ responseMessage.text }}
       <v-btn dark flat @click.native="close">{{ $t('close') }}</v-btn>
     </v-snackbar>
