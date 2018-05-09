@@ -40,7 +40,7 @@ function make (routes) {
     setLayout(router, to)
 
     if (to.fullPath === '/' && store.getters.authCheck) {
-      next({ name: 'home' })
+      next({ name: 'products' })
     }
 
     next()
@@ -107,7 +107,7 @@ function authGuard (routes) {
 function guestGuard (routes) {
   return beforeEnter(routes, (to, from, next) => {
     if (store.getters.authCheck) {
-      next({ name: 'home' })
+      next({ name: 'products' })
     } else {
       next()
     }

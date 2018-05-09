@@ -93,7 +93,7 @@ export default {
       this.busy = false
 
       // Redirect home.
-      this.$router.push({ name: 'home' })
+      this.$router.push({ name: 'products' })
     }
   }
 }
