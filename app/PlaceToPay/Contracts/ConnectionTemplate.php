@@ -9,7 +9,7 @@ interface ConnectionTemplate {
      *
      * @return void
      */
-    public function __construnct();
+    public function __construct();
 
     /**
      * Execute service method and return is result
