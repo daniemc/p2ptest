@@ -22,6 +22,8 @@ Route::group(['middleware' => 'auth:api'], function () {
 
     Route::patch('settings/profile', 'Settings\UpdateProfile');
     Route::patch('settings/password', 'Settings\UpdatePassword');
+
+    Route::post('beginTransaction', 'PlaceToPay\TransactionController@beginTransaction');
 });
 
 Route::group(['middleware' => 'guest:api'], function () {
