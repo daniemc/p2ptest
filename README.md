@@ -19,6 +19,7 @@ To install and run, you must have installed NPM follow the nexts steps:
 8. Run: **php artisan migrate**
 9. Run: **npm install**
 10. run: **npm run production**
+11. In order to run queued jobs, you must run **php artisan queue:work** and let it active
 
 
 
