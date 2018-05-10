@@ -27,6 +27,7 @@ class CreateTransactionMigration extends Migration
             $table->integer('responseCode');
             $table->string('responseReasonCode', 3);
             $table->string('responseReasonText', 255);
+            $table->string('callback_validation', 1)->default('0');
             $table->timestamps();
         });
     }
