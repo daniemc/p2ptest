@@ -7,6 +7,9 @@ use App\Models\PlaceToPay\CreateTransaction;
 use App\Models\PlaceToPay\Transaction;
 use App\Models\PlaceToPay\TransactionAttempt;
 
+use App\Jobs\TransactionInitialValidation;
+use App\Jobs\TransactionPendingValidation;
+
 class TransactionService extends ConnectionService {
 
     protected $params;
@@ -24,6 +27,12 @@ class TransactionService extends ConnectionService {
         $this->fillInfoTransactionParams($transactionId);
         $transactionInfo = $this->action('getTransactionInformation', $this->params);
         $this->fillTransactionAttempt($transactionInfo->getTransactionInformationResult);
+
+        if ($transactionInfo->getTransactionInformationResult->responseCode == 3) {
+            TransactionPendingValidation::dispatch($transactionId)
+                ->delay(now()->addMinutes(12));
+        }
+
         return [
             "result" => $transactionInfo->getTransactionInformationResult,
         ];
@@ -33,6 +42,8 @@ class TransactionService extends ConnectionService {
         $this->fillNewTransactionParams();
         $transactionResponse = $this->action('createTransaction', $this->params);
         $this->createTransaction($transactionResponse->createTransactionResult);
+        TransactionInitialValidation::dispatch($transactionResponse->createTransactionResult->transactionID)
+            ->delay(now()->addMinutes(7));
         return [
             "result" =>  $transactionResponse->createTransactionResult
         ];
@@ -131,6 +142,15 @@ class TransactionService extends ConnectionService {
         $transactionAttempt->responseReasonCode = $transactionInfo->responseReasonCode;
         $transactionAttempt->responseReasonText = $transactionInfo->responseReasonText;
         $transactionAttempt->save();
+
+        Transaction::where('transactionID', $transactionInfo->transactionID)
+            ->update([
+                'responseCode' => $transactionInfo->responseCode,
+                'responseReasonCode' => $transactionInfo->responseReasonCode,
+                'responseReasonText' => $transactionInfo->responseReasonText,
+                'callback_validation' => '1',
+                'updated_at' => date('Y-m-d H:i:s'),
+            ]);
     }
 
 
