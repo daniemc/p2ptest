@@ -4,6 +4,7 @@ $config = [
     'appName' => config('app.name'),
     'locale' => $locale = app()->getLocale(),
     'translations' => json_decode(file_get_contents(resource_path("lang/{$locale}.json")), true),
+    'bankList' => Cache::get('bankList')
 ];
 @endphp
 <script>window.config = {!! json_encode($config); !!};</script>
