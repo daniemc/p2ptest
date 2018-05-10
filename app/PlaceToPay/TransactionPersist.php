@@ -9,6 +9,13 @@ use App\Models\PlaceToPay\TransactionAttempt;
 
 class TransactionPersist {
 
+    /**
+     * Create transaction after WS Succes response
+     *
+     * @param Object $transactionResponse
+     * @param Integer $transactionLocal
+     * @return void
+     */
     public static function createTransaction($transactionResponse, $transactionLocal) {
         $transaction = new Transaction();
         $transaction->transactionID_local = $transactionLocal;
@@ -26,6 +33,13 @@ class TransactionPersist {
         $transaction->save();
     }
 
+    /**
+     * Save attempts to valiate transaction state and
+     * Update transaction state
+     *
+     * @param Object $transactionInfo
+     * @return void
+     */
     public static function fillTransactionAttempt($transactionInfo) {
         $transactionAttempt = new TransactionAttempt();
         $transactionAttempt->transactionID = $transactionInfo->transactionID;

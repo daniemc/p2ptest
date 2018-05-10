@@ -15,12 +15,28 @@ class TransactionService extends ConnectionService {
     protected $person;
     protected $auth;
 
+    /**
+     * Method to begin the transaction flow
+     * Here is set the person and the local transaction id
+     * from controller
+     *
+     * @param Integer $transaction
+     * @param Object $person
+     * @return void
+     */
     public function beginTransaction($transaction, $person) {
         $this->setPerson($person);
         $this->transaction = $transaction;
         return $this->initTransaction();
     }
 
+    /**
+     * Method called from callback and validators to
+     * consult transaction state in WS
+     *
+     * @param Integer $transactionId
+     * @return Array
+     */
     public function transactionInfo($transactionId) {
         $this->fillInfoTransactionParams($transactionId);
         $transactionInfo = $this->action('getTransactionInformation', $this->params);
@@ -33,6 +49,14 @@ class TransactionService extends ConnectionService {
         ];
     }
 
+    /**
+     * Method to send request to WS and create transaction
+     * after that, transaction is saved and validators get
+     * activated
+     *
+     * returns transaction info
+     * @return Array
+     */
     protected function initTransaction() {
 
         $this->fillNewTransactionParams();
@@ -49,11 +73,22 @@ class TransactionService extends ConnectionService {
         ];
     }
 
-
+    /**
+     * Gets auth data from parent class
+     *
+     * @return void
+     */
     protected function getAuth() {
         $this->auth = $this->auth();
     }
 
+    /**
+     * Reorganize person data to match WS
+     * params format
+     *
+     * @param Person $person
+     * @return void
+     */
     protected function setPerson($person) {
         $this->person = array(
             'document' => $person->document,
@@ -71,6 +106,12 @@ class TransactionService extends ConnectionService {
         );
     }
 
+    /**
+     * Fill create transaction request parameters and sets
+     * the params attribute
+     *
+     * @return void
+     */
     protected function fillNewTransactionParams() {
         $this->getAuth();
 
@@ -100,6 +141,12 @@ class TransactionService extends ConnectionService {
         ];
     }
 
+    /**
+     * Fill transaction info request params and sets
+     * the params attribute
+     *
+     * @return void
+     */
     protected function fillInfoTransactionParams($transactionId) {
         $this->getAuth();
 
