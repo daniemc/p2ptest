@@ -8,6 +8,8 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 
+use App\Models\PlaceToPay\Transaction;
+
 use App\PlaceToPay\TransactionService;
 
 class TransactionInitialValidation implements ShouldQueue
@@ -33,6 +35,13 @@ class TransactionInitialValidation implements ShouldQueue
      */
     public function handle()
     {
+        $actualCode = Transaction::where('transactionID', $this->transactionID)
+            ->value('responseCode');
+
+        if ( $actualCode != '3' ) {
+            return;
+        }
+
         $transaction = new TransactionService();
         $transaction->transactionInfo($this->transactionID);
     }
