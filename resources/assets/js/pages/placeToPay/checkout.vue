@@ -84,8 +84,8 @@ export default {
       const { data } = await this.checkout_form.post('/api/beginTransaction')
 
       const url = data.result.bankURL;
+      this.$store.dispatch('addTransactionId', { transactionId: data.result.transactionID });
 
-      await this.$store.dispatch('addTransactionId', { transactionId: data.result.transactionID });
       document.location.replace(url);
     }
   }

@@ -42,7 +42,7 @@ export default {
 
   created () {
     this.form.transactionID = this.$store.getters.getCurrentTransactionId;
-
+    console.log(this.$store.getters)
     this.transactionInfo();
   },
 

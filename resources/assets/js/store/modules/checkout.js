@@ -9,10 +9,10 @@ export const state = {
 // mutations
 export const mutations = {
   [types.FETCH_BANK_LIST] (state, { bankList }) {
-    this.state.bankList = bankList
+    state.bankList = bankList
   },
   [types.ADD_TRANSACTION_ID] (state, { transactionId }) {
-    this.state.transactionId = transactionId
+    state.transactionId = transactionId
   }
 }
 
