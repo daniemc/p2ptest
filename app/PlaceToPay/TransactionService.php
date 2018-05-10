@@ -5,16 +5,32 @@ use App\PlaceToPay\ConnectionService;
 
 use App\Models\PlaceToPay\CreateTransaction;
 use App\Models\PlaceToPay\Transaction;
+use App\Models\PlaceToPay\TransactionAttempt;
 
-class TransactionService extends ConnectionService{
+class TransactionService extends ConnectionService {
 
     protected $params;
     protected $transaction;
     protected $person;
     protected $auth;
 
+    public function beginTransaction($transaction, $person) {
+        $this->setPerson($person);
+        $this->transaction = $transaction;
+        return $this->initTransaction();
+    }
+
+    public function transactionInfo($transactionId) {
+        $this->fillInfoTransactionParams($transactionId);
+        $transactionInfo = $this->action('getTransactionInformation', $this->params);
+        $this->fillTransactionAttempt($transactionInfo->getTransactionInformationResult);
+        return [
+            "result" => $transactionInfo->getTransactionInformationResult,
+        ];
+    }
+
     protected function initTransaction() {
-        $this->fillTransactionParams();
+        $this->fillNewTransactionParams();
         $transactionResponse = $this->action('createTransaction', $this->params);
         $this->createTransaction($transactionResponse->createTransactionResult);
         return [
@@ -43,7 +59,24 @@ class TransactionService extends ConnectionService{
         $this->auth = $this->auth();
     }
 
-    protected function fillTransactionParams() {
+    protected function setPerson($person) {
+        $this->person = array(
+            'document' => $person->document,
+            'documentType' => $person->documentType,
+            'firstName' => $person->firstName,
+            'lastName' => $person->lastName,
+            'company' => $person->company,
+            'emailAddress' => $person->emailAddress,
+            'address' => $person->address,
+            'city' => $person->city,
+            'province' => $person->province,
+            'country' => $person->country,
+            'phone' => $person->phone,
+            'mobile' => $person->mobile,
+        );
+    }
+
+    protected function fillNewTransactionParams() {
         $this->getAuth();
 
         $transactionParams = CreateTransaction::find($this->transaction);
@@ -72,22 +105,33 @@ class TransactionService extends ConnectionService{
         ];
     }
 
-    public function beginTransaction($transaction, $person) {
-        $this->person = array(
-            'document' => $person->document,
-            'documentType' => $person->documentType,
-            'firstName' => $person->firstName,
-            'lastName' => $person->lastName,
-            'company' => $person->company,
-            'emailAddress' => $person->emailAddress,
-            'address' => $person->address,
-            'city' => $person->city,
-            'province' => $person->province,
-            'country' => $person->country,
-            'phone' => $person->phone,
-            'mobile' => $person->mobile,
-        );
-        $this->transaction = $transaction;
-        return $this->initTransaction();
+    protected function fillInfoTransactionParams($transactionId) {
+        $this->getAuth();
+
+        $this->params = [
+            'auth' => $this->auth['auth'],
+            'transactionID' => $transactionId,
+        ];
     }
+
+    protected function fillTransactionAttempt($transactionInfo) {
+
+        $transactionAttempt = new TransactionAttempt();
+        $transactionAttempt->transactionID = $transactionInfo->transactionID;
+        $transactionAttempt->sessionID = $transactionInfo->sessionID;
+        $transactionAttempt->reference = $transactionInfo->reference;
+        $transactionAttempt->requestDate = $transactionInfo->requestDate;
+        $transactionAttempt->bankProcessDate = $transactionInfo->bankProcessDate;
+        $transactionAttempt->onTest = $transactionInfo->onTest;
+        $transactionAttempt->returnCode = $transactionInfo->returnCode;
+        $transactionAttempt->trazabilityCode = $transactionInfo->trazabilityCode;
+        $transactionAttempt->transactionCycle = $transactionInfo->transactionCycle;
+        $transactionAttempt->transactionState = $transactionInfo->transactionState;
+        $transactionAttempt->responseCode = $transactionInfo->responseCode;
+        $transactionAttempt->responseReasonCode = $transactionInfo->responseReasonCode;
+        $transactionAttempt->responseReasonText = $transactionInfo->responseReasonText;
+        $transactionAttempt->save();
+    }
+
+
 }

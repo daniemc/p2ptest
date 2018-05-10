@@ -18,8 +18,8 @@ class TransactionController extends Controller
         $transaction = new CreateTransaction();
         $transaction->bankcode = $form->bank;
         $transaction->bankInterface = $form->user_type;
-        $transaction->returnURL = env('APP_URL');
-        $transaction->reference = 'compra-001';
+        $transaction->returnURL = env('APP_URL_CALLBACK');
+        $transaction->reference = 'Compra-'.date('Y-m-d H:i:s');
         $transaction->description = 'Test Payment';
         $transaction->language = app()->getLocale();
         $transaction->currency = 'COP';
@@ -37,5 +37,10 @@ class TransactionController extends Controller
 
         $createTransaction = new TransactionService();
         return $createTransaction->beginTransaction($transaction->id, $person);
+    }
+
+    public function validateTransaction(Request $form) {
+        $transactionInfo = new TransactionService();
+        return $transactionInfo->transactionInfo($form->transactionID);
     }
 }
