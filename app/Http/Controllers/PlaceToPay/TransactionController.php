@@ -11,6 +11,13 @@ use App\Models\PlaceToPay\Person;
 
 class TransactionController extends Controller
 {
+    /**
+     * Function callled from client to vegin transaction
+     * This is initialy saved in DB
+     *
+     * @param Request $form
+     * @return void
+     */
     public function beginTransaction(Request $form) {
 
         $person = new Person();
@@ -39,6 +46,13 @@ class TransactionController extends Controller
         return $createTransaction->beginTransaction($transaction->id, $person);
     }
 
+    /**
+     * Function called in callback view to
+     * verify transaction info
+     *
+     * @param Request $form
+     * @return void
+     */
     public function validateTransaction(Request $form) {
         $transactionInfo = new TransactionService();
         return $transactionInfo->transactionInfo($form->transactionID);
