@@ -41,9 +41,15 @@ class ConnectionService implements ConnectionTemplate{
             "exception" => 1,
             "location" => $this->location,
         );
-        $soap = new SoapClient($this->wsdl, $options);
 
-        return $soap->$action($params);
+        try {
+            $soap = new SoapClient($this->wsdl, $options);
+            return $soap->$action($params);
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+        }
+
+
     }
 
     /**
