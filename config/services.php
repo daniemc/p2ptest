@@ -39,7 +39,7 @@ return [
         'id' => env('PLACE_TO_PAY_ID'),
         'transactionalKey' => env('PLACE_TO_PAY_TRANSACTIONAL_KEY'),
         'wsdl' => env('PLACE_TO_PAY_WSDL'),
-        'local' => env('PLACE_TO_PAY_LOCAL'),
+        'location' => env('PLACE_TO_PAY_LOCATION'),
     ],
 
 ];

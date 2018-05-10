@@ -9,7 +9,7 @@ class ConnectionService {
     protected $id;
     protected $key;
     protected $wsdl;
-    protected $local;
+    protected $location;
     protected $connection;
 
     public function __construct() {
@@ -17,7 +17,7 @@ class ConnectionService {
         $this->id = config('services.placeToPay.id');
         $this->key = config('services.placeToPay.transactionalKey');
         $this->wsdl = config('services.placeToPay.wsdl');
-        $this->local = config('services.placeToPay.local');
+        $this->location = config('services.placeToPay.location');
 
     }
 
@@ -26,7 +26,7 @@ class ConnectionService {
         $options = array(
             "trace" => 1,
             "exception" => 1,
-            "location" => $this->local,
+            "location" => $this->location,
         );
         $soap = new SoapClient($this->wsdl, $options);
 
