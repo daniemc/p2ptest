@@ -13,7 +13,8 @@ export default ({ authGuard, guestGuard }) => [
       ] },
     { path: '/products', name: 'products', component: require('~/pages/placeToPay/products.vue') },
     { path: '/cart', name: 'cart', component: require('~/pages/placeToPay/cart.vue') },
-    { path: '/checkout', name: 'checkout', component: require('~/pages/placeToPay/checkout.vue') }
+    { path: '/checkout', name: 'checkout', component: require('~/pages/placeToPay/checkout.vue') },
+    { path: '/callback', name: 'callback', component: require('~/pages/placeToPay/callback.vue') }
   ]),
 
   // Guest routes.

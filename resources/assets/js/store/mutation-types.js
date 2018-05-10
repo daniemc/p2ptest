@@ -18,3 +18,4 @@ export const REMOVE_ALL_PRODUCTS = 'REMOVE_ALL_PRODUCTS'
 
 // checkout.js
 export const FETCH_BANK_LIST = 'FETCH_BANK_LIST'
+export const ADD_TRANSACTION_ID = 'ADD_TRANSACTION_ID'
