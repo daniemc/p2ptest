@@ -66,7 +66,6 @@ export default {
   created () {
     window.config.bankList
     .filter(bank => bank.bankCode !== '0')
-    .filter(bank => bank.bankCode === '1022')
     .forEach(bank => {
       this.bankList.push(
         {value: bank.bankCode, text: bank.bankName}
@@ -80,6 +79,15 @@ export default {
   methods: {
     async beginTransaction() {
       if (await this.formHasErrors()) return
+
+      if (this.checkout_form.user_type === '1') {
+        this.$store.dispatch('responseMessage', {
+          type: 'error',
+          text: 'En este momento el pago para empresas no se encuentra habilitado',
+          modal: false
+        });
+        return;
+      }
 
       const { data } = await this.checkout_form.post('/api/beginTransaction')
 
